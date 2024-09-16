@@ -21,4 +21,9 @@ public class ScoreRow {
     public int getRowScore() {
         return rowScore;
     }
+
+    // Sets the row score.
+    public void setRowScore(int score){
+        rowScore = score;
+    }
 }

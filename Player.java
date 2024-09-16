@@ -17,6 +17,20 @@ public class Player {
         scoreSheet = new ScoreSheet();
     }
 
+    // Returns the player's score sheet.
+    public ScoreSheet getScoreSheet(){
+        return scoreSheet;
+    }
+
+    // Returns the player's name.
+    public String getName(){
+        return name;
+    }
+
+    // Returns the player's order number.
+    public int getPlayerNum(){
+        return playerNum;
+    }
 
 
 }
