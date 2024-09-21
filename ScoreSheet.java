@@ -9,6 +9,9 @@ public class ScoreSheet {
     // The total score of a given score sheet.
     int totalScore = 0;
 
+    // The number of YAHTZEE BONUSES achieved on a given score sheet.
+    int numOfYB = 0;
+
     // Creates a players score sheet and initializes all the rows of a score sheet.
     // Row scores are set to -1, which represents a row that a player has not yet assigned a score to.
     public ScoreSheet(){
@@ -117,15 +120,27 @@ public class ScoreSheet {
     public void calculateTotal(){
         int total = 0;
         for(int i = 0; i < rows.size(); i++){
-            if(rows.get(i).getRowScore() > 0);
+            if(rows.get(i).getRowScore() > 0){
                 total += rows.get(i).getRowScore();
+            }
         }
+        total += (numOfYB * 100);
         totalScore = total;
     }
 
     // Returns the total score.
     public int getTotalScore(){
         return totalScore;
+    }
+
+    // Returns the rows
+    public ArrayList<ScoreRow> getRows(){
+        return rows;
+    }
+
+    // Adds a YAHTZEE BONUS to a given score sheet.
+    public void addYB(){
+        numOfYB++;
     }
 
 

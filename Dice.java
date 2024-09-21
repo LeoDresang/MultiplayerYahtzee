@@ -4,10 +4,10 @@ import java.util.Random;
 public class Dice {
 
     // Random Object so random dice rolls can be made.
-    Random rand = new Random();
+    static Random rand = new Random();
 
     // Returns the result (in the form of an integer array) of rolling a specified number of dice.
-    public int[] RollDice(int numToRoll){
+    public static int[] RollDice(int numToRoll){
         int[] roll = new int[numToRoll];
         for(int i = numToRoll-1; i > -1; i--){
             roll[i] = rand. nextInt(6) + 1;

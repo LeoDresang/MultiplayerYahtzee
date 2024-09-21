@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        System.out.println("Lets Play Yahtzee!\nHow many players will be playing (1-6)?");
+        System.out.println("Lets Play Yahtzee!\nHow many players will be playing? [1-6]");
 
         // The number of players in this game.
        int numOfPlayers = -1;
