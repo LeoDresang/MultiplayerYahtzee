@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 
-// Class that stores the scoring information for a player; in other words, a score sheet.
+/**
+ * Class that stores the scoring information for a player; in other words, a score sheet.
+ * Leo Dresang
+ * 9/23/2024
+ */
+
 public class ScoreSheet {
 
     // Stores each row of the score sheet (includes the row's name and score).
@@ -60,6 +65,7 @@ public class ScoreSheet {
     public void printScoreSheet(){
         final Object[][] table = new String[rows.size() + 9][3];
 
+        // Format the rows.
         for (int i = 0; i < rows.size()+5; i++){
             if(i == 0){
                 table[i] = new String[] {"UPPER SECTION", "","SCORE"};
@@ -93,6 +99,7 @@ public class ScoreSheet {
             }
         }
 
+        // Still formatting rows.
         table[rows.size() + 5] = new String[] {"", "", ""};
         table[rows.size() + 6] = new String[] {"---------------", "", "---------------"};
         ScoreRow row = new ScoreRow("YAHTZEE BONUS", 0);
@@ -101,12 +108,16 @@ public class ScoreSheet {
         row = new ScoreRow("[TOTAL SCORE]", totalScore);
         table[rows.size() + 8] = new String[] {row.getRowName(), "","" + row.getRowScore()};
 
+        // Print out scoresheet.
         for (final Object[] roww : table) {
             System.out.format("%25s%3s%-15s%n", roww);
         }
     }
 
-    // Returns if the sheet is completed.
+    /**
+     * Returns if the sheet is completed.
+     * @return boolean representing whether or not the scoresheet has been scored in all 13 rows.
+     */
     public boolean sheetComplete(){
         for(int i = 0; i < rows.size(); i++){
             if(rows.get(i).getRowScore() == -1){
@@ -116,7 +127,7 @@ public class ScoreSheet {
         return true;
     }
 
-    // Calculates the total score.
+    // Calculates and sets the total score.
     public void calculateTotal(){
         int total = 0;
         for(int i = 0; i < rows.size(); i++){

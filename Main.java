@@ -1,9 +1,12 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
-// Leo Dresang
+/**
+ * The Main method for running the game of Yahtzee.
+ * Leo Dresang
+ * 9/23/2024
+ */
 
-// The main method for running the game of Yahtzee.
 public class Main {
     
     // Scanner to read user input.
@@ -17,6 +20,7 @@ public class Main {
         // The number of players in this game.
        int numOfPlayers = -1;
 
+       // Receieve the number of players.
         while(numOfPlayers < Game.minPlayers || numOfPlayers > Game.maxPlayers){
             String temp = input.nextLine();
             temp = temp.replaceAll("\\s+","");
@@ -30,8 +34,8 @@ public class Main {
             }
         }
 
+        // Receive the names of each player.
         ArrayList<String> names = new ArrayList<String>();
-
         System.out.println("-------------------------------------");
         System.out.println("Input the name of each player.");
         for (int i = 0; i < numOfPlayers; i++){
@@ -41,7 +45,7 @@ public class Main {
         }
 
         // Create a new game.
-        Game game = new Game(numOfPlayers, names);
+        new Game(numOfPlayers, names);
 
         
         

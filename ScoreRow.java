@@ -1,4 +1,9 @@
-// Class that stores the information about a specific row on a score sheet.
+/**
+ * Class that stores the information about a specific row on a score sheet.
+ * Leo Dresang
+ * 9/23/2024
+ */
+
 public class ScoreRow {
 
     // The name of the row.

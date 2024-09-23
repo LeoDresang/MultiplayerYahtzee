@@ -2,7 +2,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-// Handles the flow/order of operations in a game of Yahtzee.
+/**
+ * Handles the flow/order of operations in a game of Yahtzee.
+ * Leo Dresang
+ * 9/23/2024
+ */
+
 public class Game {
 
     // The maximum and minimum players allowed in a game.
@@ -99,9 +104,12 @@ public class Game {
 
         // Sorting players by total score.
         for(int i = 0; i < players.size(); i ++){
+            players.get(i).getScoreSheet().calculateTotal();
+        }
+        for(int i = 0; i < players.size(); i ++){
             for(int j = i+1; j < players.size(); j ++){
                 Player temp;
-                if(players.get(j).getScoreSheet().getTotalScore() < players.get(i).getScoreSheet().getTotalScore()){
+                if(players.get(j).getScoreSheet().getTotalScore() > players.get(i).getScoreSheet().getTotalScore()){
                     temp = players.get(i);
                     players.set(i, players.get(j));
                     players.set(j, temp);
@@ -114,15 +122,18 @@ public class Game {
 
        // Print out the standings and announce with winner.
        for(int i = 1; i < players.size() + 1; i++){
-            System.out.println("1. " + players.get(i-1).getName() + " [Score: " + players.get(i-1).getScoreSheet().getTotalScore() + "]");
+            System.out.println(i + ". " + players.get(i-1).getName() + " [Score: " + players.get(i-1).getScoreSheet().getTotalScore() + "]");
        }
        System.out.println("-------------------------------------");
-       System.out.println(players.get(0).getName() + " is the winner! Good game!");
+       System.out.println("Above is the player standings! Good game!");
 
 
     }
 
-    // Handles the logic for a player choosing how to score.
+    /**
+     * Handles the logic for a player choosing how to score.
+     * @param playerNumber the number of the player to score.
+     */
     private void Score(int playerNumber){
         Player player = players.get(playerNumber);
         ScoreSheet scoreSheet = player.getScoreSheet();
@@ -136,7 +147,6 @@ public class Game {
         }
         System.out.println("In which row would you like to score? [Input the row name. Do not include any text in parentheses.]");
 
-        // Add scoring system.
         int rowToScore = -1;
         boolean isValidInput = false;
 
@@ -160,6 +170,7 @@ public class Game {
             }
         }
 
+        // Determine what row to score in.
         if(rowToScore > -1){
             if(rowToScore == 0){
                 scoreSheet.getRows().get(rowToScore).setRowScore(getAcesScore());
@@ -396,7 +407,10 @@ public class Game {
 
 
 
-    // Handles the logic for the rolls on a player's turn.
+    /**
+     * Handles the logic for the rolls on a player's turn.
+     * @param rollNum the roll number of a given player's turn (either 1, 2, or 3).
+     */
     private void rollDice(int rollNum){
 
         System.out.println("-------------------------------------");
@@ -414,6 +428,7 @@ public class Game {
         }
         System.out.println("");
 
+        // Decide what to do based on if the player want to reroll.
         if(rollNum < 3){
             System.out.println("Would you like to roll again? [Y/N]");
             String response = "";

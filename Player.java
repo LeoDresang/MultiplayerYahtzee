@@ -1,4 +1,9 @@
-// Class which represents a single player in the game of Yahtzee.
+/**
+ * Class that stores the scoring information for a player; in other words, a score sheet.
+ * Leo Dresang
+ * 9/23/2024
+ */
+
 public class Player {
 
     // The player's name.
