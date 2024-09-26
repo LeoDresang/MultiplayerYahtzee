@@ -135,6 +135,13 @@ public class ScoreSheet {
                 total += rows.get(i).getRowScore();
             }
         }
+        int upperTotal = 0;
+        for(int i = 0; i < 6; i++){
+            upperTotal += rows.get(i).getRowScore();
+        }
+        if(upperTotal > 62){
+            total += 35;
+        }
         total += (numOfYB * 100);
         totalScore = total;
     }

@@ -9,19 +9,28 @@ import java.util.Random;
 public class Dice {
 
     // Random Object so random dice rolls can be made.
-    static Random rand = new Random();
+    Random rand = new Random();
 
-    /**
-     * Returns the result (in the form of an integer array) of rolling a specified number of dice.
-     * @param numToRoll the number of dice to roll
-     * @return integer array of the resulting rolled dice.
-    */
-    public static int[] RollDice(int numToRoll){
-        int[] roll = new int[numToRoll];
-        for(int i = numToRoll-1; i > -1; i--){
-            roll[i] = rand. nextInt(6) + 1;
+    int[] roll = new int[]{0,0,0,0,0};
+
+
+    // Rolls all dice that have not been chosen to keep.
+    public void rollDice(){
+        for(int i = 0; i < 5; i++){
+            if(roll[i] == 0){
+                roll[i] = rand. nextInt(6) + 1;
+            }
         }
+    }
+
+    // Returns the current roll of the dice.
+    public int[] getRoll(){
         return roll;
+    }
+
+    // Resets dice to be all zeros.
+    public void resetDice(){
+        roll = new int[]{0,0,0,0,0};
     }
 
 }
