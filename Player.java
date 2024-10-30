@@ -16,10 +16,10 @@ public class Player {
     ScoreSheet scoreSheet;
 
     // Constructs a new player.
-    public Player(String name, int playerNum){
+    public Player(String name, int playerNum, boolean sixDiceGame){
         this.name = name;
         this.playerNum = playerNum;
-        scoreSheet = new ScoreSheet();
+        scoreSheet = new ScoreSheet(sixDiceGame);
     }
 
     // Returns the player's score sheet.

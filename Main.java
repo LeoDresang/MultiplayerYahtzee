@@ -44,8 +44,27 @@ public class Main {
             names.add(temp);
         }
 
+        System.out.println("Would you like to play with 5 or 6 dice Yahtzee? [5 or 6]");
+
+        // The number dice to be played with in this game.
+       int numOfDice = -1;
+
+       // Receieve the number of players.
+        while(!(numOfDice == 5 || numOfDice == 6)){
+            String temp = input.nextLine();
+            temp = temp.replaceAll("\\s+","");
+            temp = temp.replaceAll("[^\\d.]", "");
+            if(!(temp.equals(""))){
+                numOfDice = Integer.parseInt(temp);
+            }
+
+            if(!(numOfDice == 5 || numOfDice == 6)){
+                System.out.println("Invalid input. Try again!");
+            }
+        }
+
         // Create a new game.
-        new Game(numOfPlayers, names);
+        new Game(numOfPlayers, names, numOfDice);
 
         
         

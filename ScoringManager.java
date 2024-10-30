@@ -1,8 +1,10 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScoringManager {
 
-    int[] roll = new int[]{0,0,0,0,0};
+    int[] roll = new int[]{0,0,0,0,0,0};
 
 
     public ScoringManager(){
@@ -56,6 +58,15 @@ public class ScoringManager {
             else if(rowToScore == 12){
                 scoreSheet.getRows().get(rowToScore).setRowScore(getChanceScore());
             }
+            else if(rowToScore == 13){
+                scoreSheet.getRows().get(rowToScore).setRowScore(get6OfAKindScore());
+            }
+            else if(rowToScore == 14){
+                scoreSheet.getRows().get(rowToScore).setRowScore(getSplitScore());
+            }
+            else if(rowToScore == 15){
+                scoreSheet.getRows().get(rowToScore).setRowScore(getGiantStraightScore());
+            }
         }
     }
 
@@ -63,7 +74,7 @@ public class ScoringManager {
     // Calculates and returns the Aces score of the rolled dice.
     private int getAcesScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 1){
                 score += 1;
             }
@@ -74,7 +85,7 @@ public class ScoringManager {
     // Calculates and returns the Twos score of the rolled dice.
     private int getTwosScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 2){
                 score += 2;
             }
@@ -85,7 +96,7 @@ public class ScoringManager {
     // Calculates and returns the Threes score of the rolled dice.
     private int getThreesScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 3){
                 score += 3;
             }
@@ -96,7 +107,7 @@ public class ScoringManager {
     // Calculates and returns the Fours score of the rolled dice.
     private int getFoursScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 4){
                 score += 4;
             }
@@ -107,7 +118,7 @@ public class ScoringManager {
     // Calculates and returns the Fives score of the rolled dice.
     private int getFivesScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 5){
                 score += 5;
             }
@@ -118,7 +129,7 @@ public class ScoringManager {
     // Calculates and returns the Sixes score of the rolled dice.
     private int getSixesScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             if(roll[i] == 6){
                 score += 6;
             }
@@ -129,21 +140,21 @@ public class ScoringManager {
     // Calculates and returns the 3 Of a Kind score of the rolled dice.
     private int get3OfAKindScore(){
         int score = 0;
-        int duplicatesNum;
-        for(int i = 0; i < 5; i++){
-            duplicatesNum = 0;
-            for(int j = i; j < 5; j++){
-                if(roll[i] == roll[j]){
-                    duplicatesNum++;
-                }
-                if(duplicatesNum == 3){
-                    for(int k = 0; k < 5; k++){
-                        score += roll[k];
+            int duplicatesNum;
+            for(int i = 0; i < roll.length; i++){
+                duplicatesNum = 0;
+                for(int j = i; j < roll.length; j++){
+                    if(roll[i] == roll[j]){
+                        duplicatesNum++;
                     }
-                    return score;
+                    if(duplicatesNum == 3){
+                        for(int k = 0; k < roll.length; k++){
+                            score += roll[k];
+                        }
+                        return score;
+                    }
                 }
             }
-        }
         return score;
     }
 
@@ -151,14 +162,14 @@ public class ScoringManager {
     private int get4OfAKindScore(){
         int score = 0;
         int duplicatesNum;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             duplicatesNum = 0;
-            for(int j = i; j < 5; j++){
+            for(int j = i; j < roll.length; j++){
                 if(roll[i] == roll[j]){
                     duplicatesNum++;
                 }
                 if(duplicatesNum == 4){
-                    for(int k = 0; k < 5; k++){
+                    for(int k = 0; k < roll.length; k++){
                         score += roll[k];
                     }
                     return score;
@@ -170,25 +181,37 @@ public class ScoringManager {
 
     // Calculates and returns the Full House score of the rolled dice.
     private int getFullHouseScore(){
-        int[] rollSorted = roll;
-        Arrays.sort(rollSorted);
-        if(
-            ((rollSorted[0] == rollSorted[1]) &&
-            (rollSorted[0] == rollSorted[2]) &&
-            (rollSorted[3] == rollSorted[4])) ||
-            ((rollSorted[0] == rollSorted[1]) &&
-            (rollSorted[2] == rollSorted[3]) &&
-            (rollSorted[2] == rollSorted[4]))
-            ){
-                return 25;
+
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        
+        // Count occurrences of each face value
+        for (int die : roll) {
+            frequencyMap.put(die, frequencyMap.getOrDefault(die, 0) + 1);
+        }
+
+        boolean hasThreeOfAKind = false;
+        boolean hasPair = false;
+        
+        for (int count : frequencyMap.values()) {
+            if (count == 3) {
+                hasThreeOfAKind = true;
+            } else if (count == 2) {
+                hasPair = true;
             }
+        }
+
+        if(hasThreeOfAKind && hasPair){
+            return 25;
+        }
+
         return 0;
+        
     }
 
     // Calculates and returns the Small Straight score of the rolled dice.
     private int getSmallStraightScore(){
         int ascendingLength = 0;
-        for(int i = 1; i < 5; i++){
+        for(int i = 1; i < roll.length; i++){
             if(ascendingLength < 3){
                 if(roll[i] == (roll[i-1]+1)){
                     ascendingLength++;
@@ -210,7 +233,7 @@ public class ScoringManager {
     // Calculates and returns the Large Straight score of the rolled dice.
     private int getLargeStraightScore(){
         int ascendingLength = 0;
-        for(int i = 1; i < 5; i++){
+        for(int i = 1; i < roll.length; i++){
             if(ascendingLength < 4){
                 if(roll[i] == (roll[i-1]+1)){
                     ascendingLength++;
@@ -231,31 +254,113 @@ public class ScoringManager {
 
     // Calculates and returns the YAHTZEE score of the rolled dice.
     private int getYahtzeeScore(){
-        for(int i = 0; i < 5; i++){
-            if(roll[i] != roll[0]){
-                return 0;
+        int score = 0;
+        int duplicatesNum;
+        for(int i = 0; i < roll.length; i++){
+            duplicatesNum = 0;
+            for(int j = i; j < roll.length; j++){
+                if(roll[i] == roll[j]){
+                    duplicatesNum++;
+                }
+                if(duplicatesNum == 5){
+                    score = 50;
+                    return score;
+                }
             }
         }
-        return 50;
+        return score;
     }
 
     // Calculates and returns the Chance score of the rolled dice.
     private int getChanceScore(){
         int score = 0;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < roll.length; i++){
             score += roll[i];
         }
         return score;
     }
 
-    // Calculates if a Bonus YAHTZEE is to be awarded.
-    public int getYBScore(int[] diceRolled){
-        for(int i = 0; i < 5; i++){
-            if(diceRolled[i] != diceRolled[0]){
+    // Calculates and returns the 6 of a Kind score of the rolled dice.
+    private int get6OfAKindScore(){
+        int score = 0;
+        int duplicatesNum;
+        for(int i = 0; i < roll.length; i++){
+            duplicatesNum = 0;
+            for(int j = i; j < roll.length; j++){
+                if(roll[i] == roll[j]){
+                    duplicatesNum++;
+                }
+                if(duplicatesNum == 5){
+                    score = 100;
+                    return score;
+                }
+            }
+        }
+        return score;
+    }
+
+    //Calculates and returns the Split score of the rolled dice.
+    private int getSplitScore(){
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        
+        // Count occurrences of each face value
+        for (int die : roll) {
+            frequencyMap.put(die, frequencyMap.getOrDefault(die, 0) + 1);
+        }
+        
+        // Check if there are exactly 2 unique values with counts of 3
+        if (frequencyMap.size() != 2) {
+            return 0;
+        }
+        
+        for (int count : frequencyMap.values()) {
+            if (count != 3) {
                 return 0;
             }
         }
+        
         return 50;
+    }
+
+    //Calculates and returns the Giant Straight score of the rolled dice.
+    private int getGiantStraightScore(){
+        int ascendingLength = 0;
+        for(int i = 1; i < roll.length; i++){
+            if(ascendingLength < 6){
+                if(roll[i] == (roll[i-1]+1)){
+                    ascendingLength++;
+                }
+                else{
+                    ascendingLength = 0;
+                }
+            }
+        }
+
+        if(ascendingLength >= 6){
+            return 80;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    // Calculates if a Bonus YAHTZEE is to be awarded.
+    public int getYBScore(int[] diceRolled){
+        int score = 0;
+        int duplicatesNum;
+        for(int i = 0; i < roll.length; i++){
+            duplicatesNum = 0;
+            for(int j = i; j < roll.length; j++){
+                if(roll[i] == roll[j]){
+                    duplicatesNum++;
+                }
+                if(duplicatesNum == 5){
+                    score = 50;
+                    return score;
+                }
+            }
+        }
+        return score;
     }
 
 

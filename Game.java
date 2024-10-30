@@ -17,6 +17,15 @@ public class Game {
     // The number of players in a particular game.
     int numOfPlayers;
 
+    // Is this a six dice game?
+    boolean sixDiceGame = false;
+
+    // The number of dice in a game
+    int numOfDice = 5;
+
+    // The number of additional scoring rows in this game (compared to a standard 5-dice game)
+    int additionalRows = 0;
+
     // List of players in a particular game.
     ArrayList<Player> players = new ArrayList<Player>();
 
@@ -33,8 +42,13 @@ public class Game {
     ScoringManager scoringManager = new ScoringManager();
 
     // Creates a >new game and the player objects.
-    public Game(int numOfPlayers, ArrayList<String> names){
+    public Game(int numOfPlayers, ArrayList<String> names, int numOfDice){
         this.numOfPlayers = numOfPlayers;
+        this.numOfDice = numOfDice;
+        if(numOfDice == 6){
+            sixDiceGame = true;
+            additionalRows = 3;
+        }
 
 
         // Randomly assigning player numbers here.
@@ -43,7 +57,7 @@ public class Game {
             playerOrder.add(i);
         }
         for(int i = 0; i < names.size(); i++){
-            Player temp = new Player(names.get(i), playerOrder.remove((int)(Math.random() * playerOrder.size())));
+            Player temp = new Player(names.get(i), playerOrder.remove((int)(Math.random() * playerOrder.size())), sixDiceGame);
             players.add(temp);
         }
 
@@ -80,13 +94,18 @@ public class Game {
         rowInput.add("largestraight");
         rowInput.add("yahtzee");
         rowInput.add("chance");
+        if(sixDiceGame){
+            rowInput.add("6ofakind");
+            rowInput.add("split");
+            rowInput.add("giantstraight");
+        }
 
         runGame();
     }
 
     // Manages the turn logic of the gameplay. Also determines when the game is over and which player has won
     void runGame(){
-        int turnsRemaining = 13;
+        int turnsRemaining = 13 + additionalRows;
         while(turnsRemaining > 0){
             for(int i = 0; i < players.size(); i++){
 
@@ -187,11 +206,11 @@ public class Game {
 
         System.out.println("-------------------------------------");
 
-        dice.rollDice();
+        dice.rollDice(numOfDice);
 
         System.out.print("Roll " + rollNum + ":       ");
 
-         for(int j = 0; j < 5; j++){
+         for(int j = 0; j < numOfDice; j++){
             System.out.print(dice.getRoll()[j] + "   ");
         }
         System.out.println("");
@@ -228,9 +247,9 @@ public class Game {
 
                         playerRerollList = temp;
 
-                        if(playerRerollList.length() == 5){
+                        if(playerRerollList.length() == numOfDice){
                             isValidReroll = true;
-                            for(int j = 0; j < 5; j++){
+                            for(int j = 0; j < numOfDice; j++){
                                 if((!playerRerollList.substring(j, j+1).equals("x") && !playerRerollList.substring(j, j+1).equals("_"))){
                                     isValidReroll = false;
                                 }
@@ -249,7 +268,7 @@ public class Game {
                 }
 
                 // Only save dice that arent being rerolled.
-                for(int j = 0; j < 5; j++){
+                for(int j = 0; j < numOfDice; j++){
                     if(playerRerollList.substring(j, j+1).equals("x")){
                         dice.getRoll()[j] = 0;
                     }
@@ -258,7 +277,7 @@ public class Game {
             System.out.println("-------------------------------------");
             System.out.print("Saved dice:   ");
 
-            for(int j = 0; j < 5; j++){
+            for(int j = 0; j < numOfDice; j++){
                 if (dice.getRoll()[j] != 0) {
                     System.out.print(dice.getRoll()[j] + "   ");
                 }

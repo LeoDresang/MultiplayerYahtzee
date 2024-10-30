@@ -19,7 +19,7 @@ public class ScoreSheet {
 
     // Creates a players score sheet and initializes all the rows of a score sheet.
     // Row scores are set to -1, which represents a row that a player has not yet assigned a score to.
-    public ScoreSheet(){
+    public ScoreSheet(boolean sixDiceGame){
         ScoreRow row = new ScoreRow("Aces (Ones)", -1);
         rows.add(row);
 
@@ -58,6 +58,17 @@ public class ScoreSheet {
 
         row = new ScoreRow("Chance", -1);
         rows.add(row);
+
+        if(sixDiceGame){
+            row = new ScoreRow("6 of a Kind", -1);
+            rows.add(row);
+
+            row = new ScoreRow("Split", -1);
+            rows.add(row);
+
+            row = new ScoreRow("Giant Straight", -1);
+            rows.add(row);
+        }
 
     }
 

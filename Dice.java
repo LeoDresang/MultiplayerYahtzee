@@ -11,12 +11,12 @@ public class Dice {
     // Random Object so random dice rolls can be made.
     Random rand = new Random();
 
-    int[] roll = new int[]{0,0,0,0,0};
+    int[] roll = new int[]{0,0,0,0,0,0};
 
 
     // Rolls all dice that have not been chosen to keep.
-    public void rollDice(){
-        for(int i = 0; i < 5; i++){
+    public void rollDice(int numOfDice){
+        for(int i = 0; i < numOfDice; i++){
             if(roll[i] == 0){
                 roll[i] = rand. nextInt(6) + 1;
             }
@@ -30,7 +30,7 @@ public class Dice {
 
     // Resets dice to be all zeros.
     public void resetDice(){
-        roll = new int[]{0,0,0,0,0};
+        roll = new int[]{0,0,0,0,0,0};
     }
 
 }
