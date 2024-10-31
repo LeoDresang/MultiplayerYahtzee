@@ -44,7 +44,7 @@ public class Main {
             names.add(temp);
         }
 
-        System.out.println("Would you like to play with 5 or 6 dice Yahtzee? [5 or 6]");
+        System.out.println("Would you like to play 5 or 6 dice Yahtzee? [5 or 6]");
 
         // The number dice to be played with in this game.
        int numOfDice = -1;

@@ -348,10 +348,10 @@ public class ScoringManager {
     public int getYBScore(int[] diceRolled){
         int score = 0;
         int duplicatesNum;
-        for(int i = 0; i < roll.length; i++){
+        for(int i = 0; i < diceRolled.length; i++){
             duplicatesNum = 0;
-            for(int j = i; j < roll.length; j++){
-                if(roll[i] == roll[j]){
+            for(int j = i; j < diceRolled.length; j++){
+                if(diceRolled[i] == diceRolled[j]){
                     duplicatesNum++;
                 }
                 if(duplicatesNum == 5){
